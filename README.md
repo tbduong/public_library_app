@@ -23,52 +23,15 @@ Create the databases:
 rake db:create
 ```
 
-### Models In Review
-
-Let's start by generating a `user` model.
-
-```bash
-rails g model user email:string first_name:string last_name:string password_digest:string
-```
-
-Then go ahead and verify that the migration looks correct:
-
-`db/migrate/*_create_users.rb`
-
-```ruby
-class CreateUsers < ActiveRecord::Migration
-  def change
-    create_table :users do |t|
-      t.string :email
-      t.string :first_name
-      t.string :last_name
-      t.string :password_digest
-
-      t.timestamps null: false
-    end
-  end
-end
-```
-
-And it does! Whoot! We're ready to migrate!
-
-```bash
-rake db:migrate
-```
-
 ## Routes First
 
-Then all we have to do is create the routes for a user.
-
+Let's start with the routes for a user.
 
 `config/routes.rb`
 
 ```ruby
 Rails.application.routes.draw do
   root to: "users#index"
-
-  get "/users", to: "users#index", as: "users"
-
 end
 ```
 
@@ -83,12 +46,9 @@ Which gives us the following routes:
 ```bash
 Prefix Verb URI Pattern      Controller#Action
   root GET  /                users#index
- users GET  /users(.:format) users#index
 ```
 
 Note the special `Prefix` column this will be of great use later. 
-
-> Question?? What the heck is `/users(.:format)` and what does that mean?
 
 Well the even bigger question now is **what to do next?** The truth is we don't have a `users#index`. We don't even have a `UsersController`. Let's practice using our `rails generate` skills.
 
@@ -143,7 +103,40 @@ There are currently <%= @users.length %> signed_up
 </div>
 ```
 
-Now we should see `0` users signed_up. We should change that!
+**But wait!** If you go to `localhost:3000` after this step (like you should be!), we have a problem. No User model.
+
+Let's generate a `user` model.
+
+```bash
+rails g model user email:string first_name:string last_name:string password_digest:string
+```
+
+Then go ahead and verify that the migration looks correct:
+
+`db/migrate/*_create_users.rb`
+
+```ruby
+class CreateUsers < ActiveRecord::Migration
+  def change
+    create_table :users do |t|
+      t.string :email
+      t.string :first_name
+      t.string :last_name
+      t.string :password_digest
+
+      t.timestamps null: false
+    end
+  end
+end
+```
+
+And it does! Whoot! We're ready to migrate!
+
+```bash
+rake db:migrate
+```
+
+Ok, now we should see `0` users signed_up. We should change that!
 
 ```ruby
 
@@ -161,7 +154,6 @@ With the following output after we `rake routes`:
 ```bash
   Prefix Verb URI Pattern          Controller#Action
     root GET  /                    users#index
-   users GET  /users(.:format)     users#index
 new_user GET  /users/new(.:format) users#new
 ```
 
@@ -247,8 +239,6 @@ It looks like this form is sending `POST /USERS`, but we don't have that route s
 Rails.application.routes.draw do
   root to: "users#index"
 
-  get "/users", to: "users#index", as: "users"
-
   get "/users/new", to: "users#new", as: "new_user"
 
   post "/users", to: "users#create"
@@ -266,7 +256,7 @@ class UsersController < ApplicationController
     user_params = params.require(:user).permit(:first_name, :last_name, :email, :password)
     @user = User.create(user_params)
 
-    redirect_to users_path
+    redirect_to root_path
   end
 
 end
@@ -313,8 +303,6 @@ Now we want to add a route to `GET /users/:id`.
 
 Rails.application.routes.draw do
   root to: "users#index"
-
-  get "/users", to: "users#index", as: "users"
 
   get "/users/new", to: "users#new", as: "new_user"
 
