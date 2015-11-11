@@ -266,7 +266,7 @@ class UsersController < ApplicationController
     user_params = params.require(:user).permit(:first_name, :last_name, :email, :password)
     @user = User.create(user_params)
 
-    redirect_to "/users"
+    redirect_to users_path
   end
 
 end
@@ -382,7 +382,7 @@ module SessionsHelper
 
   def logged_in?
     if current_user == nil
-      redirect_to "/sign_in"
+      redirect_to new_session_path
     end
   end
 
@@ -482,9 +482,9 @@ Note that the form is getting submited to `POST /sessions`. We don't have a `ses
 
 Rails.application.routes.draw do
 
-  get "/sign_in", to: "sessions#new"
+  get "/sign_in", to: "sessions#new", as: 'new_session'
 
-  post "/sessions", to: "sessions#create"
+  post "/sessions", to: "sessions#create", as: 'sessions'
 
 end
 ```
@@ -500,9 +500,9 @@ class SessionsController < ApplicationController
     @user = User.confirm(user_params)
     if @user
       login(@user)
-      redirect_to "/users/#{@user.id}"
+      redirect_to @user
     else
-      redirect_to "/sign_in"
+      redirect_to new_session_path
     end
   end
 end
@@ -523,7 +523,7 @@ class UsersController < ApplicationController
     user_params = params.require(:user).permit(:first_name, :last_name, :email, :password)
     @user = User.create(user_params)
     login(@user) # <-- login the user
-    redirect_to "/users/#{@user.id}" # <-- go to show
+    redirect_to @user # <-- go to show
   end
 
 end
@@ -662,7 +662,7 @@ class LibrariesController < ApplicationController
     library_params = params.require(:library).permit(:name, :floor_count, :floor_area)
     @library = Library.create(library_params)
 
-    redirect_to "/libraries"
+    redirect_to libraries_path
   end
 end
 ```
@@ -828,7 +828,7 @@ class LibraryUsersController < ApplicationController
     @library = Library.find(params[:library_id])
     @user.libraries.push(@library)
 
-    redirect_to user_libraries(@user)
+    redirect_to @user
   end
 end
 
@@ -874,7 +874,7 @@ class UsersController < ApplicationController
     user_params = params.require(:user).permit(:first_name, :last_name, :email, :password)
     @user = User.create(user_params)
     login(@user) 
-    redirect_to "/users/#{@user.id}" 
+    redirect_to @user
   end
 
   ...
@@ -895,7 +895,7 @@ class UsersController < ApplicationController
   def create
     @user = User.create(user_params) # calls user_params method
     login(@user) 
-    redirect_to "/users/#{@user.id}" 
+    redirect_to @user
   end
 
   ...
