@@ -289,9 +289,9 @@ end
 ```
 
 
-## Clean Up
+## Authorization
 
-Let's say that in order to visit a `users#show` page you have to be logged in. Then we can add a special `before_action` to check this.
+Let's say that in order to visit a `users#show` page you have to be logged in. We'll use a special `before_action` to check for this.
 
 ```ruby
 class UsersController < ApplicationController
@@ -308,12 +308,11 @@ class UsersController < ApplicationController
 end
 ```
 
-### Exercise
+What other endpoints should be protected? Should an unauthenticated user be able to CRUD resources? Think about POST, PUT, and DELETE!
 
-1. Make it so a user has to be `logged_in?` before viewing anything of the `LibrariesController` actions or the `LibraryUsers` actions.
+### Cleanup
 
-2. Modify exercise one such anyone can view `libraries#index`, but cannot `create` or view `new` without being logged in.
-
+Before moving on to bonuses, take a moment to make your site more user friendly. Link pages together so that a user can navigate more easily from their profile to their list of libraries, and from the library index to an individual library. Consider adding a better menu/navbar to make navigation easier.
 
 ### Bonuses
 
