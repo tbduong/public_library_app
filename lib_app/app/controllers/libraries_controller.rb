@@ -14,10 +14,16 @@ class LibrariesController < ApplicationController
 
   # process library creation form data & create new library
   def create
-    library_params = params.require(:library).permit(:name, :floor_count, :floor_area)
     @library = Library.create(library_params)
 
     redirect_to libraries_path
+  end
+
+  private
+
+  # whitelist permitted form data
+  def library_params
+    params.require(:library).permit(:name, :floor_count, :floor_area)
   end
 
 end
