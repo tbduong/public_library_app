@@ -6,6 +6,11 @@ class LibrariesController < ApplicationController
     render :index
   end
 
+  def show
+    @library = Library.find(params[:id])
+    render :show
+  end
+
   # display the library creation form
   def new
     @library = Library.new
