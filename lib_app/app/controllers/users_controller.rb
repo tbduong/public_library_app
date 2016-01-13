@@ -21,10 +21,16 @@ class UsersController < ApplicationController
   # process signup form data & create new user
   # login user
   def create
-    user_params = params.require(:user).permit(:first_name, :last_name, :email, :password)
     @user = User.create(user_params)
     login(@user)
     redirect_to @user
+  end
+
+  private
+
+  # whitelist permitted form data
+  def user_params
+    params.require(:user).permit(:first_name, :last_name, :email, :password)
   end
 
 end
