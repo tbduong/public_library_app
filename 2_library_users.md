@@ -137,10 +137,14 @@ class LibrariesController < ApplicationController
 end
 ```
 
+## CRUDing Libraries
+We now have the ability to view all libraries (`libraries#index`).
+
+Please take a moment to implement `libraries#show` on your own. You will need to create routes, controller actions, and html views.
+
+Bonus: We recommend you also try to implement `edit`, `update`, `show`, and `delete`.
+
 ## Joining A Library
-
-We now have the ability to view all libraries, and it's up to you to create methods to `edit`, `update`, `show`, and `delete` a `library`.
-
 Before we get started joining a `library` and a `user` we need to wire together our `Library` and our `User` via associations.
 
 ```ruby
@@ -151,7 +155,7 @@ class User < ActiveRecord::Base
   ...
 end
 ```
-And We do something similar for a Library.
+And we do create the reciprocal associations in our `Library` model.
 
 ```ruby
 class Library < ActiveRecord::Base
@@ -160,7 +164,7 @@ class Library < ActiveRecord::Base
 end
 ```
 
-But notice here that both models are connected through as `library_users` model. Hence we need to let that model know it belongs to both of those.
+And we need to associate `LibraryUser` with `Library` and `User` too!
 
 
 ```ruby
