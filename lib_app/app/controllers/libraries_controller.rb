@@ -1,5 +1,7 @@
 class LibrariesController < ApplicationController
 
+  before_action :logged_in?, only: [:create]
+
   # display list of libraries
   def index
     @libraries = Library.all
