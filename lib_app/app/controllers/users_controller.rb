@@ -1,9 +1,15 @@
 class UsersController < ApplicationController
 
-  # grab the users
+  # display list of users
   def index
     @users = User.all
     render :index
+  end
+
+  # display one specific user, by id
+  def show
+    @user = User.find(params[:id])
+    render :show
   end
 
   # display the user signup form
