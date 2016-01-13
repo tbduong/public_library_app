@@ -550,8 +550,9 @@ end
 The `sessions#destroy` controller action needs to clear the `user_id` from the session:
 
 ```ruby
-class UsersController < ApplicationController
-
+class SessionsController < ApplicationController
+    ...
+    
     def destroy
       logout # this method lives in the SessionsHelper!
       redirect_to root_path
