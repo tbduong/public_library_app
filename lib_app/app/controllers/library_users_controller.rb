@@ -1,5 +1,7 @@
 class LibraryUsersController < ApplicationController
 
+  before_action :logged_in?, only: [:create]
+
   # display list of libraries that a specific user belongs to
   def index
     @user = User.find(params[:user_id])
