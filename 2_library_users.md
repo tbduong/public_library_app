@@ -191,7 +191,7 @@ You should now test this out in the console.
 > user.libraries
 #=> [ <#Library ... @name="SFPL" @id=1> ]
 ```
-Joining a library requires creating `library_users` controller
+In order for us to have users join libraries, we need to first create a `library_users` controller.
 
 ```bash
 rails g controller library_users
@@ -223,8 +223,7 @@ class LibraryUsersController < ApplicationController
 end
 ```
 
-Then we can have the libraries index render the user and the libraries:
-
+Then we can have the `index` action list the user's libraries (`app/views/library_users/index.html.erb`):
 
 ```html
 
