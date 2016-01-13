@@ -236,47 +236,29 @@ Then we can have the `index` action list the user's libraries (`app/views/librar
 </ul>
 ```
 
-We can test this by going to `localhost:/users/1/libraries`.
+We can test this by going to `localhost:/users/1/libraries`. If you want you can test this is working by launching your `rails console` and adding a library to a user.
 
 
 ## Add A User Lib
 
-So now that we can view, which libraries a `user` has joined we can go ahead and make a button that allows a user to `join` a library.
+We should make a button that allows a user to `join` a library!
 
-
-Let's go back to `libraries#index` and add a button to do just that.
-
+Let's go back to the `libraries#index` view and add a button to do just that.
 
 ```html
 
 <% @libraries.each do |library| %>
   <div>
     <h3><%= library.name %></h3>
-    <% if @current_user %>
+    <% if current_user %>
       <%= button_to "Join", library_users_path(library) %>
     <% end %>
   </div>
   <br>
 <% end %>
 ```
-We will have to define `library_user_path` to `POST /libraries/:library_id/users` later. But first  we need to update the `library#index` method.
 
-```ruby
-class LibrariesController < ApplicationController
-
-  def index
-    @libraries = Library.all
-    current_user # sets @current_user
-
-    render :index
-  end
-
-  ...
-
-end
-```
-
-Of course we now realize we don't have a `POST /libraries/:library_id/users` path, so we need to add one.
+We don't have an endpoint yet that allows a user to join a library, so let's add that now so that our form will work.
 
 
 ```ruby
@@ -288,7 +270,7 @@ end
 
 ```
 
-Then we need to add the `create` method to the `library_users` controller.
+Then we need to add a `create` action in `LibraryUsersController` that adds the user to the library.
 
 
 ```ruby
@@ -297,11 +279,10 @@ class LibraryUsersController < ApplicationController
   ...
 
   def create
-    @user = current_user
     @library = Library.find(params[:library_id])
-    @user.libraries.push(@library)
+    @library.users.push(current_user)
 
-    redirect_to @user
+    redirect_to current_user
   end
 end
 
