@@ -9,10 +9,10 @@ By the end of this lab you will have:
 * A Many-to-Many database relationship: Users, Libraries, Library Users
 * "Skinny", Refactored controllers
 
-####Part 1: [Users & Auth](1_users_and_auth.rb)
+####Part 1: [Users & Auth](1_users_and_auth.md)
 Solution branch: `1_users_and_auth`
 
-####Part 2: [Library Users](2_library_users.rb)
+####Part 2: [Library Users](2_library_users.md)
 Solution branch: `2_library_users`
 
 #### Solution

@@ -137,10 +137,14 @@ class LibrariesController < ApplicationController
 end
 ```
 
+## CRUDing Libraries
+We now have the ability to view all libraries (`libraries#index`).
+
+Please take a moment to implement `libraries#show` on your own. You will need to create routes, controller actions, and html views.
+
+Bonus: We recommend you also try to implement `edit`, `update`, `show`, and `delete`.
+
 ## Joining A Library
-
-We now have the ability to view all libraries, and it's up to you to create methods to `edit`, `update`, `show`, and `delete` a `library`.
-
 Before we get started joining a `library` and a `user` we need to wire together our `Library` and our `User` via associations.
 
 ```ruby
@@ -151,7 +155,7 @@ class User < ActiveRecord::Base
   ...
 end
 ```
-And We do something similar for a Library.
+And we do create the reciprocal associations in our `Library` model.
 
 ```ruby
 class Library < ActiveRecord::Base
@@ -160,7 +164,7 @@ class Library < ActiveRecord::Base
 end
 ```
 
-But notice here that both models are connected through as `library_users` model. Hence we need to let that model know it belongs to both of those.
+And we need to associate `LibraryUser` with `Library` and `User` too!
 
 
 ```ruby
@@ -187,7 +191,7 @@ You should now test this out in the console.
 > user.libraries
 #=> [ <#Library ... @name="SFPL" @id=1> ]
 ```
-Joining a library requires creating `library_users` controller
+In order for us to have users join libraries, we need to first create a `library_users` controller.
 
 ```bash
 rails g controller library_users
@@ -219,8 +223,7 @@ class LibraryUsersController < ApplicationController
 end
 ```
 
-Then we can have the libraries index render the user and the libraries:
-
+Then we can have the `index` action list the user's libraries (`app/views/library_users/index.html.erb`):
 
 ```html
 
@@ -233,47 +236,29 @@ Then we can have the libraries index render the user and the libraries:
 </ul>
 ```
 
-We can test this by going to `localhost:/users/1/libraries`.
+We can test this by going to `localhost:/users/1/libraries`. If you want you can test this is working by launching your `rails console` and adding a library to a user.
 
 
 ## Add A User Lib
 
-So now that we can view, which libraries a `user` has joined we can go ahead and make a button that allows a user to `join` a library.
+We should make a button that allows a user to `join` a library!
 
-
-Let's go back to `libraries#index` and add a button to do just that.
-
+Let's go back to the `libraries#index` view and add a button to do just that.
 
 ```html
 
 <% @libraries.each do |library| %>
   <div>
     <h3><%= library.name %></h3>
-    <% if @current_user %>
+    <% if current_user %>
       <%= button_to "Join", library_users_path(library) %>
     <% end %>
   </div>
   <br>
 <% end %>
 ```
-We will have to define `library_user_path` to `POST /libraries/:library_id/users` later. But first  we need to update the `library#index` method.
 
-```ruby
-class LibrariesController < ApplicationController
-
-  def index
-    @libraries = Library.all
-    current_user # sets @current_user
-
-    render :index
-  end
-
-  ...
-
-end
-```
-
-Of course we now realize we don't have a `POST /libraries/:library_id/users` path, so we need to add one.
+We don't have an endpoint yet that allows a user to join a library, so let's add that now so that our form will work.
 
 
 ```ruby
@@ -285,7 +270,7 @@ end
 
 ```
 
-Then we need to add the `create` method to the `library_users` controller.
+Then we need to add a `create` action in `LibraryUsersController` that adds the user to the library.
 
 
 ```ruby
@@ -294,20 +279,19 @@ class LibraryUsersController < ApplicationController
   ...
 
   def create
-    @user = current_user
     @library = Library.find(params[:library_id])
-    @user.libraries.push(@library)
+    @library.users.push(current_user)
 
-    redirect_to @user
+    redirect_to current_user
   end
 end
 
 ```
 
 
-## Clean Up
+## Authorization
 
-Let's say that in order to visit a `users#show` page you have to be logged in. Then we can add a special `before_action` to check this.
+Let's say that in order to visit a `users#show` page you have to be logged in. We'll use a special `before_action` to check for this.
 
 ```ruby
 class UsersController < ApplicationController
@@ -324,12 +308,11 @@ class UsersController < ApplicationController
 end
 ```
 
-### Exercise
+What other endpoints should be protected? Should an unauthenticated user be able to CRUD resources? Think about POST, PUT, and DELETE!
 
-1. Make it so a user has to be `logged_in?` before viewing anything of the `LibrariesController` actions or the `LibraryUsers` actions.
+### Cleanup
 
-2. Modify exercise one such anyone can view `libraries#index`, but cannot `create` or view `new` without being logged in.
-
+Before moving on to bonuses, take a moment to make your site more user friendly. Link pages together so that a user can navigate more easily from their profile to their list of libraries, and from the library index to an individual library. Consider adding a better menu/navbar to make navigation easier.
 
 ### Bonuses
 
