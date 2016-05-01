@@ -109,7 +109,7 @@ Finally, we can add a view for `new` library.
 <% end %>
 ```
 
-This form has nowhere to go if we try to submit it we get an error because there is no `POST /libraries` route.
+This form has nowhere to go; if we try to submit it we get an error because there is no `POST /libraries` route.
 
 Let's add one.
 
@@ -155,7 +155,7 @@ class User < ActiveRecord::Base
   ...
 end
 ```
-And we do create the reciprocal associations in our `Library` model.
+And we create the reciprocal associations in our `Library` model.
 
 ```ruby
 class Library < ActiveRecord::Base
@@ -236,7 +236,7 @@ Then we can have the `index` action list the user's libraries (`app/views/librar
 </ul>
 ```
 
-We can test this by going to `localhost:/users/1/libraries`. If you want you can test this is working by launching your `rails console` and adding a library to a user.
+We can test this by going to `localhost:/users/1/libraries`. If you want, you can test that this is working by launching your `rails console` and adding a library to a user.
 
 
 ## Add A User Lib
