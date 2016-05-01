@@ -17,7 +17,7 @@ Thus we need a `library_user` model.
 rails g model library_user user:references library:references
 ```
 
-In the future we can store other things on the `library_user` model that a relevant to someone's memembership to a library.
+In the future we can store other things on the `library_user` model that are relevant to someone's membership in a library.
 
 We will also need two different controllers for each of these models. Let's start by being able to do CRUD with Libraries.
 
