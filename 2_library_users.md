@@ -155,6 +155,7 @@ class User < ActiveRecord::Base
   ...
 end
 ```
+
 And we create the reciprocal associations in our `Library` model.
 
 ```ruby
@@ -320,4 +321,3 @@ Before moving on to bonuses, take a moment to make your site more user friendly.
     - For starters, just create a `Book` model and the associated views.
 * Can you add books to the library?
     - What kind of a relationship is that? Where would foreign keys like `book_id` and `library_id` live in your database tables?
-
