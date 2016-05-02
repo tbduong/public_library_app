@@ -344,13 +344,15 @@ rails c
 >)
 ```
 
+Or you can add a user using the form you just created at `/users/new`.
+
 Test your views before moving on.
 
 ## Users Sign In
 
 Now that we can create a user we need to be able to sign a user in.
 
-Signing and signing out is a concern of a new controller, the sessions controller.
+Signing in and signing out is a concern of a new controller, the sessions controller.
 
 
 ```
@@ -543,7 +545,7 @@ Rails.application.routes.draw do
   ...
   get "/login", to: "sessions#new"
   get "/logout", to: "sessions#destroy" # <-- strictly speaking this isn't RESTful (it should be a DELETE not GET), but it's super conveient to do it this way
-  post "/sessions", to: "sessions#create
+  post "/sessions", to: "sessions#create"
 end
 ```
 
@@ -552,7 +554,7 @@ The `sessions#destroy` controller action needs to clear the `user_id` from the s
 ```ruby
 class SessionsController < ApplicationController
     ...
-    
+
     def destroy
       logout # this method lives in the SessionsHelper!
       redirect_to root_path
@@ -632,6 +634,8 @@ And let's make sure to update `views/layouts/application.html.erb` to display th
 
 Nice work! We're finished with Auth!
 
+Now delete this app and do it again!!! Once you've completed this auth 2x, then move on to the refactoring section below.
+
 ## Refactoring Params
 
 Every time we take in a lot of params in a controller it's tedious to write out.
@@ -682,4 +686,19 @@ end
 
 ### Exercise
 
-* Private methods like `user_params` are simple to implement and give us cleaner looking code. Rewrite `libraries#create` using this idea.
+* Private methods like `user_params` are simple to implement and give us cleaner looking code. Rewrite `sessions#create` using this idea.
+
+### Bonus
+
+1. On the profile page, display when the user created their account. To format the date, use Ruby's built in time formatter, [strftime](http://ruby-doc.org/core-2.2.0/Time.html#method-i-strftime).
+
+1.  Right now, all the user profile pages can be seen by anyone no matter if they're logged in or not. Make it so that `/users/:id` can only be viewed if that is the profile of the currently logged in user, otherwise, redirect to home.
+  <details>
+    <summary>HINT</summary>
+    use the `current_user` object from the session helper
+  </details>
+
+1. Create another route only available to logged in users. Call it whatever you'd like!
+
+### Super cray bonus
+* Right now, you can create users with the same email. Create a validation on the user model that disallows this behavior. Consult [these docs](http://guides.rubyonrails.org/active_record_validations.html).
