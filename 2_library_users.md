@@ -188,6 +188,7 @@ You should now test this out in the console.
 #=> [ <#User ... @id=1> ]
 > LibraryUser.count
 #=> 1
+> reload!
 > user.libraries
 #=> [ <#Library ... @name="SFPL" @id=1> ]
 ```
