@@ -8,7 +8,7 @@ Let's add our second model a `Library` model that will later have books.
 rails g model library name:string floor_count:integer floor_area:integer
 ```
 
-We want a `user` to be able to join a library, but this means a `m:n` relationship. A user will have many libraries and library will have many users.
+We want a `user` to be able to join a library, but this means a `n:n` relationship. A user will have many libraries and library will have many users.
 
 Thus we need a `library_user` model.
 
@@ -320,4 +320,3 @@ Before moving on to bonuses, take a moment to make your site more user friendly.
     - For starters, just create a `Book` model and the associated views.
 * Can you add books to the library?
     - What kind of a relationship is that? Where would foreign keys like `book_id` and `library_id` live in your database tables?
-
