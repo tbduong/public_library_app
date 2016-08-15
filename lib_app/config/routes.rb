@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get "/users/:id" => "users#show", as: "user"
 
   get "/login" => "sessions#new"
+  get "/logout", to: "sessions#destroy"
   post "/sessions" => "sessions#create"
 
 end
