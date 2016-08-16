@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :library_users
+  has_many :libraries, through: :library_users
 
   has_secure_password
 
@@ -6,5 +8,7 @@ class User < ApplicationRecord
     @user = User.find_by({email: params[:email]})
     @user.try(:authenticate, params[:password])
   end
+
+
 
 end

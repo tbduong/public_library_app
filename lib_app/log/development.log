@@ -4948,3 +4948,58 @@ Completed 200 OK in 202ms (Views: 199.5ms | ActiveRecord: 1.1ms)
 
 
   [1m[35m (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "libraries"[0m
+Started GET "/libraries" for ::1 at 2016-08-16 15:07:09 -0700
+Processing by LibrariesController#index as HTML
+  Rendering libraries/index.html.erb within layouts/application
+  [1m[36mLibrary Load (1.0ms)[0m  [1m[34mSELECT "libraries".* FROM "libraries"[0m
+  Rendered libraries/index.html.erb within layouts/application (12.8ms)
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+Completed 200 OK in 399ms (Views: 287.6ms | ActiveRecord: 1.7ms)
+
+
+Started GET "/libraries/new" for ::1 at 2016-08-16 15:07:13 -0700
+Processing by LibrariesController#new as HTML
+  Rendering libraries/new.html.erb within layouts/application
+  Rendered libraries/new.html.erb within layouts/application (5.7ms)
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+Completed 200 OK in 54ms (Views: 52.4ms | ActiveRecord: 0.7ms)
+
+
+Started POST "/libraries" for ::1 at 2016-08-16 15:07:23 -0700
+Processing by LibrariesController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"AkHXVhNJkck/7s6Fo48Og8f3S8EbOBawlmgu03GhzCBKFecMzlW1jj5lFUTIpCzMWptqJiN0rbaXyqIxOGyz/Q==", "library"=>{"name"=>"San Francisco Public Library", "floor_count"=>"10", "floor_area"=>"15"}, "commit"=>"Create Library"}
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.9ms)[0m  [1m[32mINSERT INTO "libraries" ("name", "floor_count", "floor_area", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "San Francisco Public Library"], ["floor_count", 10], ["floor_area", 15], ["created_at", 2016-08-16 22:07:23 UTC], ["updated_at", 2016-08-16 22:07:23 UTC]]
+  [1m[35m (14.8ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/libraries
+Completed 302 Found in 23ms (ActiveRecord: 16.9ms)
+
+
+Started GET "/libraries" for ::1 at 2016-08-16 15:07:23 -0700
+Processing by LibrariesController#index as HTML
+  Rendering libraries/index.html.erb within layouts/application
+  [1m[36mLibrary Load (0.4ms)[0m  [1m[34mSELECT "libraries".* FROM "libraries"[0m
+  Rendered libraries/index.html.erb within layouts/application (2.1ms)
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+Completed 200 OK in 38ms (Views: 36.3ms | ActiveRecord: 1.1ms)
+
+
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mLibrary Load (1.3ms)[0m  [1m[34mSELECT "libraries".* FROM "libraries" INNER JOIN "library_users" ON "libraries"."id" = "library_users"."library_id" WHERE "library_users"."user_id" = $1[0m  [["user_id", 1]]
+  [1m[36mLibrary Load (75.1ms)[0m  [1m[34mSELECT "libraries".* FROM "libraries"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (33.4ms)[0m  [1m[32mINSERT INTO "libraries" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Milpitas Public Library"], ["created_at", 2016-08-16 22:16:04 UTC], ["updated_at", 2016-08-16 22:16:04 UTC]]
+  [1m[35m (29.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (1.6ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "library_users" ON "users"."id" = "library_users"."user_id" WHERE "library_users"."library_id" = $1[0m  [["library_id", 7]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (182.1ms)[0m  [1m[32mINSERT INTO "library_users" ("user_id", "library_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 1], ["library_id", 7], ["created_at", 2016-08-16 22:16:55 UTC], ["updated_at", 2016-08-16 22:16:55 UTC]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "library_users"[0m
+  [1m[36mLibraryUser Load (0.8ms)[0m  [1m[34mSELECT "library_users".* FROM "library_users"[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "library_users"[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "library_users"[0m
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mLibrary Load (0.8ms)[0m  [1m[34mSELECT "libraries".* FROM "libraries" INNER JOIN "library_users" ON "libraries"."id" = "library_users"."library_id" WHERE "library_users"."user_id" = $1[0m  [["user_id", 1]]
